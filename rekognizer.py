@@ -36,7 +36,7 @@ class Rekognizer():
         return client.detect_labels(Image={'Bytes': photo})
     
     def covert_img_to_bytes(self):
-        with open(self.source_photo, 'rb') as photo:
+        with open(self.output_photo, 'rb') as photo:
             return photo.read()
     
     def print_results(self, results):
