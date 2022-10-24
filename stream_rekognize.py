@@ -19,7 +19,7 @@ def index():
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-    <img id="map" src="{{ get_url('static', filename='test.jpg') }}" with="1080"/>
+    <img id="map" src="{{ get_url('static', filename='test.jpg') }}" width="1080"/>
     <script>
       $(document).ready(function(){
         setInterval(refreshFunction, 1000);
