@@ -22,7 +22,7 @@ def index():
     <img id="map" src="{{ get_url('static', filename='test.jpg') }}" />
     <script>
       $(document).ready(function(){
-        setInterval(refreshFunction, 3000);
+        setInterval(refreshFunction, 1000);
       });
 
       function refreshFunction(){
@@ -39,5 +39,10 @@ def index():
 @route('/<filename:path>', name='static')
 def serve_static(filename):
     return static_file(filename, root='static')
+
+@route('/refresh')
+def refresh():
+    os.makedirs('static', exist_ok=True)
+    return "OK" 
 
 run(host='0.0.0.0', port=8080)
