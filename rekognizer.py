@@ -17,9 +17,9 @@ class Rekognizer():
     def start(self):
         self.take_picture()
         photo = self.covert_img_to_bytes()
-        self.add_boxes()
+        results = self.add_boxes()
         # results = self.aws_rekognition_image(photo)
-        # self.print_results(results)
+        self.print_results(results)
                     
     def take_picture(self):
         self.camera.resolution = (1920, 1080)
@@ -68,8 +68,8 @@ class Rekognizer():
                     y1 = y0 + int(bbox['Height'] * h)
                     draw.rectangle([x0, y0, x1, y1], outline=(255, 0, 0), width=10)
                     draw.text((x0, y1), name, fill=(255, 0, 0))
-            image = image.resize(w * 0.6, h* 0.6)
             image.save(self.output_photo)
+            return response
 
 def main():
     rekognizer = Rekognizer(
