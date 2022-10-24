@@ -24,7 +24,7 @@ def index():
     <img id="map" src="{{ get_url('static', filename='map.png') }}" />
     <script>
       $(document).ready(function(){
-        setInterval(refreshFunction, 1000);
+        setInterval(refreshFunction, 3000);
       });
 
       function refreshFunction(){
