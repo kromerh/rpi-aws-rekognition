@@ -46,7 +46,7 @@ class Rekognizer():
 
 def main():
     rekognizer = Rekognizer(
-        output_photo='test.jpg',
+        output_photo='static/test.jpg',
         sleep_time=2
     )
     rekognizer.start()
