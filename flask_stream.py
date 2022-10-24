@@ -1,35 +1,51 @@
-from flask import Flask, Response, send_file
+import os
 import time
 
-app = Flask(__name__)
+import bottle
+from bottle import route, run, template, BaseTemplate, static_file
 
-@app.route("/")
+import numpy as np
+from PIL import Image
+
+app = bottle.default_app()
+BaseTemplate.defaults['get_url'] = app.get_url
+
+@route('/')
 def index():
-    return "Hello World"
+    return template('''<!DOCTYPE html>
+<html>
+<head>
+    <title>HARTA</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <img id="map" src="{{ get_url('static', filename='map.png') }}" />
+    <script>
+      $(document).ready(function(){
+        setInterval(refreshFunction, 1000);
+      });
 
-def get_image():
-    while True:
-        yield(b'--frame\r\n'
-              b'Content-Type: image/jpeg\r\n\r\n'+ img + b'\r\n')
-        time.sleep(0.01) # my Firefox needs some time to display image / Chrome displays image without it
+      function refreshFunction(){
+        $.get('/refresh', function(){            
+            d = new Date();
+            $("#map").attr("src", "{{ get_url('static', filename='map.png') }}?"+d.getTime());            
+            console.log($("#map").attr("src"));
+        });
+      }
+    </script>
+</body>
+</html>''')
 
-def get_image_with_size():
-    length = str(len(img)).encode() # convert to bytes
-    while True:
-        yield(b'--frame\r\n'
-              b'Content-Type: image/jpeg\r\n'
-              b'Content-Length: ' + length + b'\r\n'
-              b'\r\n'+ img + b'\r\n')
-        time.sleep(0.01) # my Firefox needs some time to display image / Chrome displays image without it
+@route('/<filename:path>', name='static')
+def serve_static(filename):
+    return static_file(filename, root='static')
 
-@app.route("/stream")
-def stream():
-    return Response(get_image(), mimetype="multipart/x-mixed-replace; boundary=frame")
-
-@app.route("/image")
-def image():
-    return send_file('Cat.jpg')
-
-if(__name__ == "__main__"):
-    img = open('Cat.jpg', 'rb').read()
-    app.run(debug=True, port=5050, host='0.0.0.0')
+@route('/refresh')
+def refresh():
+    os.makedirs('static', exist_ok=True)
+    newmapp = np.random.rand(100,100,3) * 255    
+    data = Image.fromarray(newmapp.astype('uint8')).convert('RGBA')
+    data.save('static/map.png')
+    return "OK" 
+    
+run(host='0.0.0.0', port=8080)
