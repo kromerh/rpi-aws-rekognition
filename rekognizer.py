@@ -68,7 +68,7 @@ class Rekognizer():
                     y1 = y0 + int(bbox['Height'] * h)
                     draw.rectangle([x0, y0, x1, y1], outline=(255, 0, 0), width=10)
                     draw.text((x0, y1), name, fill=(255, 0, 0))
-
+            image = image.resize(w * 0.6, h* 0.6)
             image.save(self.output_photo)
 
 def main():
