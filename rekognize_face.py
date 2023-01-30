@@ -60,7 +60,7 @@ class Rekognizer():
             draw = ImageDraw.Draw(image)
             # Get all labels
             w, h = image.size
-            num_face = 0
+            num_face = 1
             for face in response['FaceDetails']:
                 # Draw all instancex box, if any
                 bbox = face['BoundingBox']
