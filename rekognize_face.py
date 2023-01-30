@@ -72,7 +72,7 @@ class Rekognizer():
             #         draw.rectangle([x0, y0, x1, y1], outline=(255, 0, 0), width=10)
             #         draw.text((x0, y1), name, font=font, fill=(255, 0, 0))
             # image.save(self.output_photo)
-            print(json.dumps(response, ident=4))
+            print(json.dump(response, ident=4))
             return response
 
 def main():
