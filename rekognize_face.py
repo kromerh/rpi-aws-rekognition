@@ -69,7 +69,7 @@ class Rekognizer():
                 x1 = x0 + int(bbox['Width'] * w)
                 y1 = y0 + int(bbox['Height'] * h)
                 draw.rectangle([x0, y0, x1, y1], outline=(255, 0, 0), width=10)
-                draw.text((x0, y1), num_face, font=font, fill=(255, 0, 0))
+                draw.text((x0, y1), str(num_face), font=font, fill=(255, 0, 0))
                 num_face =+ 1
                 print("#######################################")
                 print(f"Face {num_face}:")
