@@ -5,6 +5,7 @@ from time import sleep
 import boto3
 from picamera import PiCamera
 from PIL import Image, ImageDraw, ImageFont
+import json
 
 
 class Rekognizer():
@@ -20,7 +21,7 @@ class Rekognizer():
         photo = self.covert_img_to_bytes()
         results = self.add_boxes()
         # results = self.aws_rekognition_image(photo)
-        self.print_results(results)
+        # self.print_results(results)
                     
     def take_picture(self):
         self.camera.resolution = (1920, 1080)
@@ -71,7 +72,7 @@ class Rekognizer():
             #         draw.rectangle([x0, y0, x1, y1], outline=(255, 0, 0), width=10)
             #         draw.text((x0, y1), name, font=font, fill=(255, 0, 0))
             # image.save(self.output_photo)
-            print(response)
+            print(json.dumps(response, ident=4))
             return response
 
 def main():
