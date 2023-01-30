@@ -74,7 +74,8 @@ class Rekognizer():
                 print("#######################################")
                 print(f"Face {num_face}:")
                 print(json.dumps(face['Emotions'], indent=4))
-            image.save(self.output_photo)    
+            image.save(self.output_photo)
+            print(num_face)    
             return response
 
 def main():
