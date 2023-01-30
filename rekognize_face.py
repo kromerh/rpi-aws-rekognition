@@ -54,25 +54,27 @@ class Rekognizer():
             im_bytes = im.read()
             # Upload image to AWS 
             response = rek_client.detect_faces(Image={'Bytes': im_bytes}, Attributes=['ALL'])
-            # # Get default font to draw texts
-            # image = Image.open(io.BytesIO(im_bytes))
-            # font = ImageFont.truetype('FreeSerif.ttf', size=80)
-            # draw = ImageDraw.Draw(image)
-            # # Get all labels
-            # w, h = image.size
-            # for label in response['Labels']:
-            #     name = label['Name']
-            #     # Draw all instancex box, if any
-            #     for instance in label['Instances']:
-            #         bbox = instance['BoundingBox']
-            #         x0 = int(bbox['Left'] * w) 
-            #         y0 = int(bbox['Top'] * h)
-            #         x1 = x0 + int(bbox['Width'] * w)
-            #         y1 = y0 + int(bbox['Height'] * h)
-            #         draw.rectangle([x0, y0, x1, y1], outline=(255, 0, 0), width=10)
-            #         draw.text((x0, y1), name, font=font, fill=(255, 0, 0))
-            # image.save(self.output_photo)
-            print(json.dumps(response, indent=4))
+            # Get default font to draw texts
+            image = Image.open(io.BytesIO(im_bytes))
+            font = ImageFont.truetype('FreeSerif.ttf', size=60)
+            draw = ImageDraw.Draw(image)
+            # Get all labels
+            w, h = image.size
+            num_face = 1
+            for face in response['FaceDetails']:
+                # Draw all instancex box, if any
+                bbox = face['BoundingBox']
+                x0 = int(bbox['Left'] * w) 
+                y0 = int(bbox['Top'] * h)
+                x1 = x0 + int(bbox['Width'] * w)
+                y1 = y0 + int(bbox['Height'] * h)
+                draw.rectangle([x0, y0, x1, y1], outline=(255, 0, 0), width=10)
+                draw.text((x0, y1), num_face, font=font, fill=(255, 0, 0))
+                num_face =+ 1
+                print("#######################################")
+                print(f"Face {num_face}:")
+                print(json.dumps(face['Emotions'], indent=4))
+            image.save(self.output_photo)    
             return response
 
 def main():
