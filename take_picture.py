@@ -31,9 +31,9 @@ class PiPicture():
         """
         
         _ = s3.upload_file(
-          Body = self.output_photo,
-          Bucket = bucket,
-          Key = self.output_photo
+          self.output_photo,
+          bucket,
+          self.output_photo
         )
         print(f"### Uploaded to bucket {bucket}")
         
