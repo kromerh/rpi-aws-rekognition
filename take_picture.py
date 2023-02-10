@@ -21,6 +21,7 @@ class PiPicture():
         """
         self.camera.resolution = (1920, 1080)
         self.camera.start_preview()
+        sleep(0.01)
         self.camera.capture(output=self.output_photo)
         self.camera.stop_preview()
         print(f"### Took photo {self.output_photo}")
