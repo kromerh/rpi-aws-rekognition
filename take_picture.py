@@ -30,7 +30,7 @@ class PiPicture():
         """Method to upload the photo to s3.
         """
         
-        _ = s3.put_object(
+        _ = s3.upload_file(
           Body = self.output_photo,
           Bucket = bucket,
           Key = self.output_photo
