@@ -1,4 +1,4 @@
-import io
+import sys
 from datetime import datetime
 from time import sleep
 
@@ -36,11 +36,37 @@ class PiPicture():
           self.output_photo
         )
         print(f"### Uploaded to bucket {bucket}")
-        
-def main():
-    pi_picture = PiPicture()
-    pi_picture.take_picture()
-    pi_picture.upload_to_s3(bucket="face-rekog-input-dev-20230201") 
+
+class LiveHandler():
+    """Class to take pictures and upload to S3 live.
+    """
+    def __init__(
+        self,
+        sleep_time: float = 0.1,
+        s3_bucket: str = "face-rekog-input-dev-20230201"
+    ) -> None:
+        self.sleep_time = sleep_time
+        self.s3_bucket = s3_bucket
+    
+    def take_photo(self):
+        """Method to take a photo and upload to s3."""
+        pi_picture = PiPicture()
+        pi_picture.take_picture()
+        pi_picture.upload_to_s3(bucket=self.s3_bucket)
+  
+    def run(self):
+        """Method to run endlessly."""
+        try:
+            while True:
+                self.take_photo()
+                sleep(self.sleep_time)
+
+        except KeyboardInterrupt:
+            sys.exit()
 
 if __name__ == "__main__":
-    main()
+    handler = LiveHandler(
+        sleep_time=0.1,
+        s3_bucket="face-rekog-input-dev-20230201"
+    )
+    handler.run()
