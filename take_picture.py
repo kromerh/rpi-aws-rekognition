@@ -39,6 +39,7 @@ class PiPicture():
 def main():
     pi_picture = PiPicture()
     pi_picture.take_picture()
+    sleep(0.01)
     pi_picture.upload_to_s3(bucket="face-rekog-input-dev-20230201") 
 
 if __name__ == "__main__":
