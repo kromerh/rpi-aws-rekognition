@@ -43,6 +43,6 @@ def serve_static(filename):
 @route('/refresh')
 def refresh():
     os.makedirs('static', exist_ok=True)
-    return "OK" 
+    return "OK"
 
 run(host='0.0.0.0', port=8080)
