@@ -14,7 +14,7 @@ class PiPicture():
         """Class init.
         """
         self.camera = PiCamera()
-        self.output_photo = 'image.jpg'
+        self.output_photo = 'input.jpg'
 
     def take_picture(self):
         """Method to take a photo with the Pi camera.
