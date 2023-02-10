@@ -23,15 +23,18 @@ class PiPicture():
         self.camera.start_preview()
         self.camera.capture(output=self.output_photo)
         self.camera.stop_preview()
+        print(f"### Took photo {self.output_photo}")
     
     def upload_to_s3(self, bucket: str):
         """Method to upload the photo to s3.
         """
+        
         _ = s3.put_object(
           Body = self.output_photo,
           Bucket = bucket,
           Key = self.output_photo
         )
+        print(f"### Uploaded to bucket {bucket}")
         
 def main():
     pi_picture = PiPicture()
