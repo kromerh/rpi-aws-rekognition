@@ -21,7 +21,7 @@ class PiPicture():
         """
         self.camera.resolution = (1920, 1080)
         self.camera.start_preview()
-        sleep(0.01)
+        sleep(0.001)
         self.camera.capture(output=self.output_photo)
         self.camera.stop_preview()
         print(f"### Took photo {self.output_photo}")
@@ -67,7 +67,7 @@ class LiveHandler():
 
 if __name__ == "__main__":
     handler = LiveHandler(
-        sleep_time=0.05,
+        sleep_time=0.1,
         s3_bucket="face-rekog-input-dev-20230201"
     )
     handler.run()
