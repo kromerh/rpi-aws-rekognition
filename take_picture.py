@@ -72,7 +72,7 @@ class LiveHandler():
 
 if __name__ == "__main__":
     handler = LiveHandler(
-        sleep_time=0.25,
+        sleep_time=0.05,
         s3_bucket="face-rekog-input-dev-20230201"
     )
     handler.run()
