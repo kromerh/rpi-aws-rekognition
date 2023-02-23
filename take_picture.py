@@ -14,7 +14,8 @@ class PiPicture():
         """Class init.
         """
         self.camera = PiCamera()
-        self.camera.resolution = (1920, 1080)
+        # self.camera.resolution = (1920, 1080)
+        self.camera.resolution = (1280, 720)
         self.output_photo = 'input.jpg'
 
     def close_camera(self):
