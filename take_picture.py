@@ -14,18 +14,18 @@ class PiPicture():
         """Class init.
         """
         self.camera = PiCamera()
+        self.camera.resolution = (1920, 1080)
         self.output_photo = 'input.jpg'
+
+    def close_camera(self):
+        """Method to close the camera."""
+        self.camera.close()
 
     def take_picture(self):
         """Method to take a photo with the Pi camera.
         """
-        self.camera.resolution = (1920, 1080)
-        self.camera.start_preview()
-        sleep(0.001)
         self.camera.capture(output=self.output_photo)
-        self.camera.stop_preview()
         print(f"### Took photo {self.output_photo}")
-        self.camera.close()
     
     def upload_to_s3(self, bucket: str):
         """Method to upload the photo to s3.
@@ -48,12 +48,15 @@ class LiveHandler():
     ) -> None:
         self.sleep_time = sleep_time
         self.s3_bucket = s3_bucket
+        self.pi_picture = PiPicture()
+    
+    def init_camera(self):
+        """Method to initialize the camera."""
     
     def take_photo(self):
         """Method to take a photo and upload to s3."""
-        pi_picture = PiPicture()
-        pi_picture.take_picture()
-        pi_picture.upload_to_s3(bucket=self.s3_bucket)
+        self.pi_picture.take_picture()
+        self.pi_picture.upload_to_s3(bucket=self.s3_bucket)
   
     def run(self):
         """Method to run endlessly."""
@@ -63,6 +66,7 @@ class LiveHandler():
                 sleep(self.sleep_time)
 
         except KeyboardInterrupt:
+            self.pi_picture.close_camera()
             sys.exit()
 
 if __name__ == "__main__":
